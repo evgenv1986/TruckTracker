@@ -39,16 +39,36 @@ class VINTest {
             exception.message
         )
     }
+    @Test
+    fun `should throw ValueLessWhenHighLen when VIN too long` () {
+        val exception = assertFailsWith<CreateVINError.ValueMoreWhenHighLen> {
+            VIN.from("123456789012345678")
+        }
+        assertEquals(
+            "длина символов вин больще допустимого максимума",
+            exception.message
+        )
+    }
 }
 
 data class VIN(private val value: String){
     companion object {
         private const val LOWLEN = 11
+        private const val HIGHLEN = 17
         fun from(value: String): VIN {
             if (!valueLenMoreThanLowLen(value)){
                 throw CreateVINError.ValueLessWhenLowLen
-            } else return VIN(value)
+            }
+            if (valueLenMoreThanHighLen(value)){
+                throw CreateVINError.ValueMoreWhenHighLen
+            }
+            return VIN(value)
         }
+
+        private fun valueLenMoreThanHighLen(value: String): Boolean {
+            return HIGHLEN <= value.length
+        }
+
         private fun valueLenMoreThanLowLen(value: String): Boolean{
             return LOWLEN <= value.length
         }
@@ -61,4 +81,5 @@ data class VIN(private val value: String){
 
 sealed class CreateVINError(message: String) : Exception(message) {
     object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
+    object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
 }
