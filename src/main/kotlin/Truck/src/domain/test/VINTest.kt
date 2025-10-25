@@ -1,5 +1,6 @@
 package org.example.truck.src.domain.test
 
+import Truck.src.domain.main.CreateVINError
 import Truck.src.domain.main.VIN
 import org.junit.Assert
 import org.junit.Test
@@ -48,9 +49,4 @@ class VINTest {
             exception.message
         )
     }
-}
-
-sealed class CreateVINError(message: String) : Exception(message) {
-    object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
-    object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
 }

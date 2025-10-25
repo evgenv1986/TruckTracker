@@ -1,7 +1,5 @@
 package Truck.src.domain.main
 
-import org.example.truck.src.domain.test.CreateVINError
-
 data class VIN(private val value: String){
     companion object {
         private const val LOWLEN = 11
@@ -27,5 +25,9 @@ data class VIN(private val value: String){
     public fun length(): Int {
         return value.length
     }
+}
 
+sealed class CreateVINError(message: String) : Exception(message) {
+    object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
+    object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
 }
