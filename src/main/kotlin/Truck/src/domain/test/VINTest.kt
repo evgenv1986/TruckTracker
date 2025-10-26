@@ -78,6 +78,12 @@ class VINTest {
             assertFailsWith<CreateVINError.SpecialCharsError> {
                 VIN.from("1234&5678901")}.message)
     }
+    @Test
+    fun `should throw with empty value`() {
+        assertEquals("vin не должен пустым" ,
+            assertFailsWith<CreateVINError.EmptyValue> {
+                VIN.from("")}.message)
+    }
 }
 
 

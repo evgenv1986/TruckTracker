@@ -5,6 +5,9 @@ data class VIN(private val value: String){
         private const val LOWLEN = 11
         private const val HIGHLEN = 17
         fun from(value: String): VIN {
+            if (value.isEmpty()){
+                throw CreateVINError.EmptyValue
+            }
             if (!valueLenMoreThanLowLen(value)){
                 throw CreateVINError.ValueLessWhenLowLen}
             if (valueLenMoreThanHighLen(value)){
@@ -42,4 +45,5 @@ sealed class CreateVINError(message: String) : Exception(message) {
     object AplhaNumericError: CreateVINError("Разрешены только латинские буквы и цифры")
     object SpaceError: CreateVINError("vin не должен содержать пробелы")
     object SpecialCharsError : CreateVINError("vin не должен содержать спецсимволы")
+    object EmptyValue : CreateVINError("vin не должен пустым")
 }
