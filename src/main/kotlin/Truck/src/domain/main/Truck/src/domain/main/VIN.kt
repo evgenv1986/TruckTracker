@@ -14,6 +14,10 @@ data class VIN(private val value: String){
             if ( !value.matches ("^[a-zA-Z0-9]+$".toRegex())){
                 throw CreateVINError.AplhaNumericError
             }
+            if ( value.contains(Regex("[IOQ]")) ){
+                throw CreateVINError.ForbidenCharsError
+            }
+
             return VIN(value)
         }
 
@@ -31,7 +35,7 @@ data class VIN(private val value: String){
 }
 
 sealed class CreateVINError(message: String) : Exception(message) {
-
+    object ForbidenCharsError: CreateVINError("Символы I, O, Q запрещены")
     object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
     object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
     object AplhaNumericError: CreateVINError("Разрешены только латинские буквы и цифры")

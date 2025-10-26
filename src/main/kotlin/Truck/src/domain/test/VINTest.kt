@@ -56,6 +56,16 @@ class VINTest {
         }
         assertEquals("Разрешены только латинские буквы и цифры" ,exception.message)
     }
+    @Test
+    fun `successfully create vin with alpha numeric chars`() {
+        VIN.from("123e45r67t890")
+    }
+    @Test
+    fun `should throw with forbiden chars I O Q`() {
+        assertEquals("Символы I, O, Q запрещены" ,
+            assertFailsWith<CreateVINError.ForbidenCharsError> {
+                VIN.from("123I4567890")}.message)
+    }
 }
 
 
