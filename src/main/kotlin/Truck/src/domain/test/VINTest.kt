@@ -66,6 +66,12 @@ class VINTest {
             assertFailsWith<CreateVINError.ForbidenCharsError> {
                 VIN.from("123I4567890")}.message)
     }
+    @Test
+    fun `should throw with space`() {
+        assertEquals("vin не должен содержать пробелы" ,
+            assertFailsWith<CreateVINError.SpaceError> {
+                VIN.from("123 45678901")}.message)
+    }
 }
 
 
