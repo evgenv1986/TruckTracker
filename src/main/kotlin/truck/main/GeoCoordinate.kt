@@ -1,4 +1,4 @@
-package Truck.src.domain.main.Truck.src.domain.main
+package domain.truck
 
 class GeoCoordinate(latitude1: Int, longitude1: Int) {
     companion object {

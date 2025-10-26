@@ -1,7 +1,7 @@
-package org.example.Truck.src.domain.test
+package domain.truck.test
 
-import Truck.src.domain.main.Truck.src.domain.main.GeoCoordinate
-import Truck.src.domain.main.Truck.src.domain.main.CreateGeoCoordinateError
+import domain.truck.CreateGeoCoordinateError
+import domain.truck.GeoCoordinate
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

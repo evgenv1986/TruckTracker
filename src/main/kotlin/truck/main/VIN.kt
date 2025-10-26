@@ -1,4 +1,4 @@
-package Truck.src.domain.main
+package domain.truck
 
 data class VIN(private val value: String){
     companion object {
