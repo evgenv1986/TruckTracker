@@ -1,7 +1,7 @@
-package org.example.truck.src.domain.test
+package domain.truck.test
 
-import Truck.src.domain.main.CreateVINError
-import Truck.src.domain.main.VIN
+import domain.truck.CreateVINError
+import domain.truck.VIN
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
