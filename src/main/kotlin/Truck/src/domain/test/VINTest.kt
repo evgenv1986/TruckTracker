@@ -52,13 +52,13 @@ class VINTest {
     @Test
     fun `should throw alpha numeric error on create vin`() {
         val exception = assertFailsWith<CreateVINError.AplhaNumericError> {
-            VIN.from("123в4567890")
+            VIN.from("123Л4567890")
         }
         assertEquals("Разрешены только латинские буквы и цифры" ,exception.message)
     }
     @Test
     fun `successfully create vin with alpha numeric chars`() {
-        VIN.from("123e45r67t890")
+        VIN.from("123E4567890")
     }
     @Test
     fun `should throw with forbiden chars I O Q`() {
@@ -83,6 +83,12 @@ class VINTest {
         assertEquals("vin не должен пустым" ,
             assertFailsWith<CreateVINError.EmptyValue> {
                 VIN.from("")}.message)
+    }
+    @Test
+    fun `should throw with not upper chars`() {
+        assertEquals("vin не должен содежать маленькие буквы" ,
+            assertFailsWith<CreateVINError.UpperCase> {
+                VIN.from("VVNBVBnVBNVNBV")}.message)
     }
 }
 

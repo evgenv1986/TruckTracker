@@ -6,13 +6,13 @@ data class VIN(private val value: String){
         private const val HIGHLEN = 17
         fun from(value: String): VIN {
             if (value.isEmpty()){
-                throw CreateVINError.EmptyValue
-            }
+                throw CreateVINError.EmptyValue}
+            if (!value.none {it.isLowerCase()}){
+                throw CreateVINError.UpperCase}
             if (!valueLenMoreThanLowLen(value)){
                 throw CreateVINError.ValueLessWhenLowLen}
             if (valueLenMoreThanHighLen(value)){
                 throw CreateVINError.ValueMoreWhenHighLen}
-
             if ( value.contains(Regex("[IOQ]")) ){
                 throw CreateVINError.ForbidenCharsError}
             if (value.contains(" ")){
@@ -46,4 +46,5 @@ sealed class CreateVINError(message: String) : Exception(message) {
     object SpaceError: CreateVINError("vin не должен содержать пробелы")
     object SpecialCharsError : CreateVINError("vin не должен содержать спецсимволы")
     object EmptyValue : CreateVINError("vin не должен пустым")
+    object UpperCase  : CreateVINError("vin не должен содежать маленькие буквы")
 }
