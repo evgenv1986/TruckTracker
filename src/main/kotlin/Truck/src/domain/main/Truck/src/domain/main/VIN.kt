@@ -6,38 +6,29 @@ data class VIN(private val value: String){
         private const val HIGHLEN = 17
         fun from(value: String): VIN {
             if (!valueLenMoreThanLowLen(value)){
-                throw CreateVINError.ValueLessWhenLowLen
-            }
+                throw CreateVINError.ValueLessWhenLowLen}
             if (valueLenMoreThanHighLen(value)){
-                throw CreateVINError.ValueMoreWhenHighLen
-            }
+                throw CreateVINError.ValueMoreWhenHighLen}
 
             if ( value.contains(Regex("[IOQ]")) ){
-                throw CreateVINError.ForbidenCharsError
-            }
+                throw CreateVINError.ForbidenCharsError}
             if (value.contains(" ")){
-                throw CreateVINError.SpaceError
-            }
+                throw CreateVINError.SpaceError}
 
             if (value.contains(Regex("[^a-zA-Z0-9]"))){
                 throw CreateVINError.SpecialCharsError
-
             }
             if ( !value.all {
                     it in 'a'..'z' || it in 'A'..'Z' || it in '0'..'9'}){
 //                if ( !value.matches ("^[a-zA-Z0-9]+$".toRegex())){
-                throw CreateVINError.AplhaNumericError
-            }
+                throw CreateVINError.AplhaNumericError}
             return VIN(value)
         }
-
         private fun valueLenMoreThanHighLen(value: String): Boolean {
             return HIGHLEN <= value.length
         }
-
         private fun valueLenMoreThanLowLen(value: String): Boolean{
-            return LOWLEN <= value.length
-        }
+            return LOWLEN <= value.length        }
     }
     public fun length(): Int {
         return value.length
