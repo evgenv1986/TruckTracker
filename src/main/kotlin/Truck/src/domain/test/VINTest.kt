@@ -49,4 +49,35 @@ class VINTest {
             exception.message
         )
     }
+    @Test
+    fun `should throw alpha numeric error on create vin`() {
+        val exception = assertFailsWith<CreateVINError.AplhaNumericError> {
+            VIN.from("123в4567890")
+        }
+        assertEquals("Разрешены только латинские буквы и цифры" ,exception.message)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

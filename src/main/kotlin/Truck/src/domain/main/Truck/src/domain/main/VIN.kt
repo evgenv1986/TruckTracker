@@ -11,6 +11,9 @@ data class VIN(private val value: String){
             if (valueLenMoreThanHighLen(value)){
                 throw CreateVINError.ValueMoreWhenHighLen
             }
+            if ( !value.matches ("^[a-zA-Z0-9]+$".toRegex())){
+                throw CreateVINError.AplhaNumericError
+            }
             return VIN(value)
         }
 
@@ -28,6 +31,8 @@ data class VIN(private val value: String){
 }
 
 sealed class CreateVINError(message: String) : Exception(message) {
+
     object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
     object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
+    object AplhaNumericError: CreateVINError("Разрешены только латинские буквы и цифры")
 }
