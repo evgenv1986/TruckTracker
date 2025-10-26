@@ -72,6 +72,12 @@ class VINTest {
             assertFailsWith<CreateVINError.SpaceError> {
                 VIN.from("123 45678901")}.message)
     }
+    @Test
+    fun `should throw with special chars`() {
+        assertEquals("vin не должен содержать спецсимволы" ,
+            assertFailsWith<CreateVINError.SpecialCharsError> {
+                VIN.from("1234&5678901")}.message)
+    }
 }
 
 
