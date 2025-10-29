@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:src/main/kotlin/truck/test/VINTest.kt
 package org.example.truck.test
+========
+package domain.truck.test
+>>>>>>>> origin/master:src/main/kotlin/domain/truck/test/VINTest.kt
 
 import domain.truck.CreateVINError
 import domain.truck.VIN
