@@ -1,0 +1,50 @@
+package domain.truck
+
+data class VIN(private val value: String){
+    companion object {
+        private const val LOWLEN = 11
+        private const val HIGHLEN = 17
+        fun from(value: String): VIN {
+            if (value.isEmpty()){
+                throw CreateVINError.EmptyValue}
+            if (!value.none {it.isLowerCase()}){
+                throw CreateVINError.UpperCase}
+            if (!valueLenMoreThanLowLen(value)){
+                throw CreateVINError.ValueLessWhenLowLen}
+            if (valueLenMoreThanHighLen(value)){
+                throw CreateVINError.ValueMoreWhenHighLen}
+            if ( value.contains(Regex("[IOQ]")) ){
+                throw CreateVINError.ForbidenCharsError}
+            if (value.contains(" ")){
+                throw CreateVINError.SpaceError}
+
+            if (value.contains(Regex("[^a-zA-Z0-9]"))){
+                throw CreateVINError.SpecialCharsError
+            }
+            if ( !value.all {
+                    it in 'a'..'z' || it in 'A'..'Z' || it in '0'..'9'}){
+//                if ( !value.matches ("^[a-zA-Z0-9]+$".toRegex())){
+                throw CreateVINError.AplhaNumericError}
+            return VIN(value)
+        }
+        private fun valueLenMoreThanHighLen(value: String): Boolean {
+            return HIGHLEN <= value.length
+        }
+        private fun valueLenMoreThanLowLen(value: String): Boolean{
+            return LOWLEN <= value.length        }
+    }
+    public fun length(): Int {
+        return value.length
+    }
+}
+
+sealed class CreateVINError(message: String) : Exception(message) {
+    object ForbidenCharsError: CreateVINError("Символы I, O, Q запрещены")
+    object ValueLessWhenLowLen: CreateVINError("длина символов вин меньше допустимого минимума")
+    object ValueMoreWhenHighLen: CreateVINError("длина символов вин больще допустимого максимума")
+    object AplhaNumericError: CreateVINError("Разрешены только латинские буквы и цифры")
+    object SpaceError: CreateVINError("vin не должен содержать пробелы")
+    object SpecialCharsError : CreateVINError("vin не должен содержать спецсимволы")
+    object EmptyValue : CreateVINError("vin не должен пустым")
+    object UpperCase  : CreateVINError("vin не должен содежать маленькие буквы")
+}
