@@ -11,7 +11,7 @@ class VINTest {
     @Test
     fun `low len bound of vin`() {
         val lowLen = 11
-        val vin = VIN.Companion.from("12345678901")
+        val vin = VIN.from("12345678901")
         Assert.assertEquals(11, lowLen)
         Assert.assertTrue(lowLen <= vin.length())
     }

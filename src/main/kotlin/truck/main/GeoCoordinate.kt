@@ -1,6 +1,6 @@
 package domain.truck
 
-class GeoCoordinate(latitude1: Int, longitude1: Int) {
+class GeoCoordinate(latitude: Int, longitude: Int) {
     companion object {
         private const val LOWER_LATITUDE = -90
         private const val UPPER_LATITUDE = 90
