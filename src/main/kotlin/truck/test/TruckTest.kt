@@ -1,5 +1,4 @@
 package domain.truck.test
-import domain.truck.CreateGeoCoordinateError
 import domain.truck.CreateVINError
 import domain.truck.GeoCoordinate
 import domain.truck.VIN
@@ -23,7 +22,7 @@ class TruckTest {
 
     }
     @Test
-    fun `truck should be created with correct vin` () {
+    fun `truck should be created with not correct vin` () {
         val vin = VIN.from ("YVCBVCB44234343")
         val latitude = 10
         val longitude = 20
@@ -33,6 +32,25 @@ class TruckTest {
 
         assertEquals("vin не должен содежать маленькие буквы",
             assertFailsWith<CreateVINError.UpperCase> {
-                Truck.from(vin= "!овыаловыла", coordinate, parked, updateTime)}.message)
+                Truck.from(vin= "!овыаловыла", coordinate, parked, updateTime,)}.message)
         }
+    @Test
+    fun `truck should be created with not correct coordinate` () {
+        val vin = VIN.from ("YVCBVCB44234343")
+        val latitude = -1000
+        val longitude = 20
+        val coordinate = GeoCoordinate.from(latitude, longitude)
+        val parked = TruckState.PARKED
+        val updateTime = OffsetDateTime.now()
+
+        assertEquals("error message",
+            assertFailsWith<CreateVINError.UpperCase> {
+                Truck.from(
+                    vin= "YVCBVCB44234343",
+                    latitude = -1000,
+                    longitude = 20,
+                    parked,
+                    updateTime)}
+                .message)
+    }
 }

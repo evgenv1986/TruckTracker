@@ -10,7 +10,7 @@ enum class TruckState{
 }
 class Truck(vin: VIN, coordinate: GeoCoordinate, truckState: TruckState, updateTime: OffsetDateTime) {
     companion object {
-        fun from(vin: String, coordinate: GeoCoordinate, parked: TruckState, updateTime: OffsetDateTime): Truck {
+        fun from(vin: String, latitude: Int, longitude: Int, parked: TruckState, updateTime: OffsetDateTime): Truck {
             return Truck(VIN.from(vin), coordinate, parked, updateTime)
         }
     }
