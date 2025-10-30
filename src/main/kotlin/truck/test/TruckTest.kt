@@ -15,7 +15,6 @@ class TruckTest {
         val coordinate = GeoCoordinate.from(latitude, longitude)
         val parked = TruckState.PARKED
         val updateTime = OffsetDateTime.now()
-
-        Truck.from(vin, coordinate, parked, updateTime,)
+        Truck.from(vin, coordinate)
     }
 }
