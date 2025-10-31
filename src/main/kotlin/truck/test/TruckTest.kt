@@ -1,11 +1,14 @@
 package domain.truck.test
+import domain.truck.CreateVINError
 import domain.truck.GeoCoordinate
 import domain.truck.VIN
+import org.example.truck.main.MoveTruckError
 import org.example.truck.main.Truck
 import org.example.truck.main.TruckState
 import org.junit.Test
 import java.time.OffsetDateTime
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class TruckTest {
@@ -84,7 +87,23 @@ class TruckTest {
         val truck = fixtureTruckWithMoveTime(
             OffsetDateTime.now().minusMinutes(3))
         assertEquals(TruckState.PARKED, truck.state())
-
+    }
+    @Test
+    fun `shoud be move truck error on move time less than previous move time` (){
+        val truck = fixtureTruck()
+        assertEquals(
+            "Время обновления позиции меньше последнего времени обновления",
+            assertFailsWith<MoveTruckError.MovingTimeLessThanPreviousTime> {
+                truck.moveTo(GeoCoordinate.from(10, 20),
+                    OffsetDateTime.now().minusMinutes(3))
+            }.message
+        )
+    }
+    @Test
+    fun `not move when previous coordinate equals new coordinate` (){
+        val truck = fixtureTruck()
+        truck.moveTo(GeoCoordinate.from(10, 20),
+            OffsetDateTime.now())
     }
 }
 

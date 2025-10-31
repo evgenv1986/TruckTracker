@@ -1,6 +1,13 @@
 package domain.truck
 
-class GeoCoordinate(latitude: Int, longitude: Int) {
+class GeoCoordinate {
+    private val longitude: Int
+    private val latitude: Int
+
+    constructor(latitude: Int, longitude: Int){
+        this.latitude = latitude
+        this.longitude = longitude
+    }
     companion object {
         private const val LOWER_LATITUDE = -90
         private const val UPPER_LATITUDE = 90
@@ -16,6 +23,17 @@ class GeoCoordinate(latitude: Int, longitude: Int) {
             }
             return GeoCoordinate(latitude, longitude)
         }
+    }
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GeoCoordinate) return false
+        return this.latitude == other.latitude &&
+                this.longitude == other.longitude
+    }
+
+    override fun hashCode(): Int {
+        var result = latitude.hashCode()
+        return result
     }
 }
 
