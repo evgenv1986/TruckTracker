@@ -15,8 +15,6 @@ class TruckTest {
         val latitude = 10
         val longitude = 20
         val coordinate = GeoCoordinate.from(latitude, longitude)
-        val parked = TruckState.PARKED
-        val updateTime = OffsetDateTime.now()
         Truck.from(vin, coordinate)
     }
 
@@ -25,8 +23,6 @@ class TruckTest {
         val latitude = 10
         val longitude = 20
         val coordinate = GeoCoordinate.from(latitude, longitude)
-        val parked = TruckState.PARKED
-        val updateTime = OffsetDateTime.now()
         return Truck.from(vin, coordinate)
     }
 
@@ -70,7 +66,7 @@ class TruckTest {
         assertTrue(TruckState.NO_SIGNAL == truck.state())
     }
     @Test
-    fun `lastUpdateLessMinute` () {
+    fun lastUpdateLessMinute() {
         val vin = VIN.from ("YVCBVCB44234343")
         val latitude = 10
         val longitude = 20
@@ -78,8 +74,62 @@ class TruckTest {
         val state = TruckState.MOVING
         val updateTime = OffsetDateTime.now()
         val truck = Truck(vin, coordinate, state, updateTime)
-        assertTrue(truck.lastUpdateLessMinute())
+        assertTrue(truck.lessThan(1))
+        assertEquals(TruckState.MOVING, truck.state())
     }
-
+    @Test
+    fun lastUpdateLessThreeMinute() {
+        val vin = VIN.from ("YVCBVCB44234343")
+        val latitude = 10
+        val longitude = 20
+        val coordinate = GeoCoordinate.from(latitude, longitude)
+        val state = TruckState.MOVING
+        val updateTime = OffsetDateTime.now().minusMinutes(2)
+        val truck = Truck(vin, coordinate, state, updateTime)
+        assertTrue(truck.moreThan(1) and truck.lessOrEqualThan(3))
+        assertEquals(TruckState.PARKED, truck.state())
+    }
+    @Test
+    fun lastUpdateMoreThreeMinute() {
+        val vin = VIN.from ("YVCBVCB44234343")
+        val latitude = 10
+        val longitude = 20
+        val coordinate = GeoCoordinate.from(latitude, longitude)
+        val state = TruckState.MOVING
+        val updateTime = OffsetDateTime.now().minusMinutes(4)
+        val truck = Truck(
+            vin,
+            coordinate,
+            state,
+            updateTime)
+        assertTrue(truck.moreThan(3))
+        assertEquals(TruckState.NO_SIGNAL, truck.state())
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

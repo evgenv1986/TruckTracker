@@ -2,6 +2,8 @@ package org.example.truck.main
 import domain.truck.GeoCoordinate
 import domain.truck.VIN
 import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
+import kotlin.math.abs
 
 enum class TruckState{
     MOVING(),
@@ -9,10 +11,10 @@ enum class TruckState{
     NO_SIGNAL()
 }
 class Truck {
-    private lateinit var updateTime: OffsetDateTime
-    private lateinit var coordinate: GeoCoordinate
-    private lateinit var vin: VIN
-    private val state: TruckState
+    private var updateTime: OffsetDateTime
+    private var state: TruckState
+    private var coordinate: GeoCoordinate
+    private val vin: VIN
 
     constructor(vin: VIN, coordinate: GeoCoordinate, truckState: TruckState, updateTime: OffsetDateTime) {
         this.vin = vin
@@ -33,34 +35,34 @@ class Truck {
         }
     }
     fun state(): TruckState {
-        if (lastUpdateLessMinute()) {
+        if (lessThan(1)) {
             changeState(TruckState.MOVING)
         }
-        if (lastUpdateLessThreeMinute()) {
+        if (moreThan(1) and lessOrEqualThan(3)) {
             changeState(TruckState.PARKED)
         }
-        if (lastUpdateMoreThreeMinute()) {
+        if (moreThan(3)) {
             changeState(TruckState.NO_SIGNAL)
         }
         return this.state
     }
-
     private fun changeState(state: TruckState) {
-        TODO("Not yet implemented")
+        this.state = state
     }
-
-    private fun lastUpdateMoreThreeMinute(): Boolean {
-        TODO("Not yet implemented")
+    fun lastUpdateInMinutes(): Long{
+        return abs(ChronoUnit.MINUTES.between(
+            OffsetDateTime.now(),
+            updateTime))
     }
-
-    private fun lastUpdateLessThreeMinute(): Boolean {
-        TODO("Not yet implemented")
+    fun lessThan(minutes: Long): Boolean{
+        return lastUpdateInMinutes() < minutes
     }
-
-    fun lastUpdateLessMinute(): Boolean {
-        return updateTime() <= OffsetDateTime.now().plusMinutes(1)
+    fun moreThan(minutes: Long): Boolean{
+        return lastUpdateInMinutes() > minutes
     }
-
+    fun lessOrEqualThan(minutes: Long): Boolean{
+        return lastUpdateInMinutes() <= minutes
+    }
     fun updateTime(): OffsetDateTime{
         return this.updateTime
     }
