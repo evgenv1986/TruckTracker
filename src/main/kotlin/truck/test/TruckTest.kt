@@ -105,6 +105,16 @@ class TruckTest {
         assertTrue(truck.moreThan(3))
         assertEquals(TruckState.NO_SIGNAL, truck.state())
     }
+    @Test
+    fun `change state to PARKED with method moveTo`() {
+        val truck = fixtureTruck()
+        truck.moveTo(
+            GeoCoordinate.from(30, 40),
+            OffsetDateTime.now().minusMinutes(3)
+        )
+        assertEquals(TruckState.PARKED, truck.state())
+
+    }
 }
 
 

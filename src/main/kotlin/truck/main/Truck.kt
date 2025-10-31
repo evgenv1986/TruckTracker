@@ -67,4 +67,18 @@ class Truck {
         return this.updateTime
     }
 
+    fun moveTo(to: GeoCoordinate, movingTime: OffsetDateTime) {
+        coordinate = to
+        updateTime = movingTime
+        if (lessThan(1)) {
+            changeState(TruckState.MOVING)
+        }
+        if (moreThan(1) and lessOrEqualThan(3)) {
+            changeState(TruckState.PARKED)
+        }
+        if (moreThan(3)) {
+            changeState(TruckState.NO_SIGNAL)
+        }
+    }
+
 }
