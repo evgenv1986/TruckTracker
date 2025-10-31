@@ -68,6 +68,10 @@ class Truck {
     }
 
     fun moveTo(to: GeoCoordinate, movingTime: OffsetDateTime) {
+        if (coordinate == to) return
+        if (movingTime < updateTime()){
+            throw MoveTruckError.MovingTimeLessThanPreviousTime
+        }
         coordinate = to
         updateTime = movingTime
         if (lessThan(1)) {
@@ -81,4 +85,9 @@ class Truck {
         }
     }
 
+}
+
+sealed class MoveTruckError(message: String): Exception(message) {
+    object MovingTimeLessThanPreviousTime: MoveTruckError(
+        "Время обновления позиции меньше последнего времени обновления")
 }
