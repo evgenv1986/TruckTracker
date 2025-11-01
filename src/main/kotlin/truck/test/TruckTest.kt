@@ -105,6 +105,14 @@ class TruckTest {
         truck.moveTo(GeoCoordinate.from(10, 20),
             OffsetDateTime.now())
     }
+    @Test fun `added truck moved domain event` () {
+        val truck = fixtureTruck()
+        truck.moveTo(GeoCoordinate.from(10, 20),
+            OffsetDateTime.now())
+        val events = truck.popEvents()
+        assertEquals(events.Count, 1)
+        assertEquals(instanceof(events[0], TrackMovedDomainEvent))
+    }
 }
 
 

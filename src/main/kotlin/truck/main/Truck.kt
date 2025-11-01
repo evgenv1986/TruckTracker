@@ -83,6 +83,7 @@ class Truck {
         if (moreThan(3)) {
             changeState(TruckState.NO_SIGNAL)
         }
+//        addEvent(TrackMovedDomainEvent);
     }
 
 }
