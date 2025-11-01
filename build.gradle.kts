@@ -25,6 +25,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+//    tasks.withType<Test> {
+//        useJUnitPlatform()
+//    }
 }
 kotlin {
     jvmToolchain(23)
