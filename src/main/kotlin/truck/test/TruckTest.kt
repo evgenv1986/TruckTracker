@@ -1,11 +1,15 @@
 package domain.truck.test
-import domain.truck.CreateVINError
+
+import common.src.main.types.base.Version
 import domain.truck.GeoCoordinate
 import domain.truck.VIN
-import org.example.truck.main.MoveTruckError
-import org.example.truck.main.Truck
-import org.example.truck.main.TruckState
+import truck.main.MoveTruckError
+import truck.main.Truck
+import truck.main.TruckState
 import org.junit.Test
+import truck.`in-memory-persistence`.TruckLongIdFactory
+import truck.main.TrackMovedDomainEvent
+import truck.main.TruckIdFactory
 import java.time.OffsetDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -34,7 +38,7 @@ class TruckTest {
         val longitude = 20
         val coordinate = GeoCoordinate.from(latitude, longitude)
         val state = TruckState.MOVING
-        val truck = Truck(vin, coordinate, state, moveTime)
+        val truck = Truck(TruckLongIdFactory().new(), Version.new(), vin, coordinate, state, moveTime)
         return truck
     }
     @Test
@@ -107,11 +111,11 @@ class TruckTest {
     }
     @Test fun `added truck moved domain event` () {
         val truck = fixtureTruck()
-        truck.moveTo(GeoCoordinate.from(10, 20),
+        truck.moveTo(GeoCoordinate.from(30, 20),
             OffsetDateTime.now())
         val events = truck.popEvents()
-        assertEquals(events.Count, 1)
-        assertEquals(instanceof(events[0], TrackMovedDomainEvent))
+        assertEquals(1,events.count())
+        assertTrue(events[0] is TrackMovedDomainEvent)
     }
 }
 

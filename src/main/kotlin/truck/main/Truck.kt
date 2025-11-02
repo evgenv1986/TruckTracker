@@ -1,4 +1,7 @@
-package org.example.truck.main
+package truck.main
+
+import common.src.main.types.base.AggregateRoot
+import common.src.main.types.base.Version
 import domain.truck.GeoCoordinate
 import domain.truck.VIN
 import java.time.OffsetDateTime
@@ -10,13 +13,21 @@ enum class TruckState{
     PARKED(),
     NO_SIGNAL()
 }
-class Truck {
-    private var updateTime: OffsetDateTime
-    private var state: TruckState
-    private var coordinate: GeoCoordinate
+open class Truck : AggregateRoot<TruckId> {
+    private lateinit var updateTime: OffsetDateTime
+    private lateinit var state: TruckState
+    private lateinit var coordinate: GeoCoordinate
     private val vin: VIN
 
-    constructor(vin: VIN, coordinate: GeoCoordinate, truckState: TruckState, updateTime: OffsetDateTime) {
+    constructor(
+        id: TruckId,
+        version: Version,
+        vin: VIN,
+        coordinate: GeoCoordinate,
+        truckState: TruckState,
+        updateTime: OffsetDateTime
+    )
+    : super(id, version) {
         this.vin = vin
         this.coordinate = coordinate
         this.state = truckState
@@ -31,7 +42,13 @@ class Truck {
         : Truck {
             val truckState: TruckState  = TruckState.MOVING
             val updateTime: OffsetDateTime = OffsetDateTime.now()
-            return Truck(vin, coordinate, truckState, updateTime)
+            return Truck(
+                id = TruckId(-1),
+                version = Version.new(),
+                vin,
+                coordinate,
+                truckState,
+                updateTime)
         }
     }
     fun state(): TruckState {
@@ -83,7 +100,7 @@ class Truck {
         if (moreThan(3)) {
             changeState(TruckState.NO_SIGNAL)
         }
-//        addEvent(TrackMovedDomainEvent);
+        addEvent(TrackMovedDomainEvent(this.id));
     }
 
 }
